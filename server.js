@@ -68,13 +68,13 @@ app.get('/new/:webAddress', function(req,res){
     if (err) throw err
     var collection = db.collection('shorturls');
     collection.insert(doc, function(err, data) {
-      if (err) throw err
+      if (err) throw err;
       res.send({
         "original-url": req.params.webAddress,
         "short-url": outputUrl
-      })
-      db.close()
-    })
+      });
+    });
+    db.close()
   })
 })
 

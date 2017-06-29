@@ -9,7 +9,8 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 var rand = require("random-key");
-var mongo = require('mongodb').MongoClient
+var mongodb = require('mongodb')
+var mongo = mongodb.MongoClient
 var url = process.env.MONGOLAB_URI;
 
 if (!process.env.DISABLE_XORIGIN) {

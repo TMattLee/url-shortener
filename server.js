@@ -53,6 +53,7 @@ app.get('/test/:docKey', function(req, res) {
       }
     )
     db.close();
+  });
 });
     
 app.get('/new/:webAddress', function(req,res){
@@ -75,8 +76,8 @@ app.get('/new/:webAddress', function(req,res){
       });
     });
     db.close()
-  })
-})
+  });
+});
 
 
 

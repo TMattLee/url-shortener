@@ -34,6 +34,7 @@ app.route('/_api/package.json')
     fs.readFile(__dirname + '/package.json', function(err, data) {
       if(err) return next(err);
       res.type('txt').send(data.toString());
+      
     });
   });
   
@@ -54,10 +55,11 @@ app.get('/:docKey', function(req, res) {
         result.toArray(function(err, result) {
           if(err) throw err;
           res.redirect('https://' + result[0]["original-url"]);
+          db.close();
         });
       }
     )
-    db.close();
+    
   });
 });
     
@@ -80,8 +82,8 @@ app.get('/new/http://:webAddress', function(req,res){
         "original-url": req.params.webAddress,
         "short-url": outputUrl
       });
+      db.close();
     });
-    db.close()
   });
 });
 

@@ -8,6 +8,9 @@
 var fs = require('fs');
 var express = require('express');
 var app = express();
+var rand = require("random-key");
+var mongo = require('mongodb').MongoClient
+var url = process.env.MONGOLAB_URI;
 
 if (!process.env.DISABLE_XORIGIN) {
   app.use(function(req, res, next) {
@@ -36,7 +39,46 @@ app.route('/_api/package.json')
 app.route('/')
     .get(function(req, res) {
 		  res.sendFile(process.cwd() + '/views/index.html');
+    });
+    
+app.route('/:docKey')
+    .get(function(req, res) {
+      mongo.connect(url,function(err, db) {
+        if (err) throw err;
+        var collection = db.collection('shorturls');
+        collection.find({
+          "key": req.params.docKey
+        },function(err, result) {
+          if (err) throw err;
+          res.redirect(result["short-url"])
+        }
+      );
+    });
+    
+app.get('/new/:webAddress', function(req,res){
+  var baseUrl = "https://tmattlee-urlshortener.herokuapp.com/";
+  var newEndPoint = rand.generateBase30(6);
+  var outputUrl = baseUrl + newEndPoint;
+  var doc = {
+    "key":  newEndPoint,
+    "original-url": req.params.webAddress,
+    "short-url": outputUrl
+  }
+  mongo.connect(url, function(err, db) {
+    if (err) throw err
+    var collection = db.collection('shorturls');
+    collection.insert(doc, function(err, data) {
+      if (err) throw err
+      res.send({
+        "original-url": req.params.webAddress,
+        "short-url": outputUrl
+      })
+      db.close()
     })
+  })
+})
+
+
 
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){

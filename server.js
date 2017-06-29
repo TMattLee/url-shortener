@@ -41,19 +41,18 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     });
     
-app.route('/:docKey')
-    .get(function(req, res) {
-      mongo.connect(url,function(err, db) {
-        if (err) throw err;
-        var collection = db.collection('shorturls');
-        collection.find({
-          "key": req.params.docKey
-        },function(err, result) {
-          if (err) throw err;
-          res.redirect(result["short-url"])
-        }
-      );
-    });
+app.get('/:docKey', function(req, res) {
+  mongo.connect(url,function(err, db) {
+    if (err) throw err;
+    var collection = db.collection('shorturls');
+    collection.find({
+      "key": req.params.docKey
+    },function(err, result) {
+      if (err) throw err;
+      res.redirect(result["short-url"])
+    }
+  );
+});
     
 app.get('/new/:webAddress', function(req,res){
   var baseUrl = "https://tmattlee-urlshortener.herokuapp.com/";

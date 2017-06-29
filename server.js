@@ -46,12 +46,13 @@ app.get('/test/:docKey', function(req, res) {
     if (err) throw err;
     var collection = db.collection('shorturls');
     collection.find({
-      "key": req.params.docKey
-    },function(err, result) {
-      if (err) throw err;
-      res.redirect(result["short-url"])
-    }
-  );
+        "key": req.params.docKey
+      },function(err, result) {
+        if (err) throw err;
+        res.redirect(result["short-url"])
+      }
+    )
+    db.close();
 });
     
 app.get('/new/:webAddress', function(req,res){

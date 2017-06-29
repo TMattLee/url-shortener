@@ -41,15 +41,19 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     });
     
-/*app.get('/test/:docKey', function(req, res) {
+app.get('/:docKey', function(req, res) {
   mongo.connect(url,function(err, db) {
     if (err) throw err;
     var collection = db.collection('shorturls');
+   
     collection.find({
         "key": req.params.docKey
-      },function(err, result) {
+      }, function(err, result){
         if (err) throw err;
-        res.redirect(result["short-url"])
+        result.toArray(function(err, result) {
+          if (err) throw err;
+          res.redirect(result[0]["original-url"]);
+        });
       }
     )
     db.close();
@@ -57,7 +61,8 @@ app.route('/')
 });
     
 app.get('/new/:webAddress', function(req,res){
-  var baseUrl = "https://tmattlee-urlshortener.herokuapp.com/test/";
+  console.log(req.params.webAddress)
+  var baseUrl = "https://tmattlee-urlshortener.herokuapp.com/";
   var newEndPoint = rand.generateBase30(6);
   var outputUrl = baseUrl + newEndPoint;
   var doc = {
@@ -77,7 +82,7 @@ app.get('/new/:webAddress', function(req,res){
     });
     db.close()
   });
-});*/
+});
 
 
 

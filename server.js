@@ -52,10 +52,8 @@ app.get('/:docKey', function(req, res) {
       }, function(err, result){
         if (err) throw err;
         result.toArray(function(err, result) {
-          if (err) throw err;
-          res.statusCode = 302;
-          res.setHeader("Location", 'https://' + result[0]["original-url"]);
-          res.end();
+          if(err) throw err;
+          res.redirect('https://' + result[0]["original-url"]);
         });
       }
     )

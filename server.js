@@ -116,6 +116,9 @@ app.get('/new/https://:webAddress', function(req,res){
   });
 });
 
+app.get('/new/*', function(req,res){
+  res.send('Invalid Url Format');
+});
 
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){

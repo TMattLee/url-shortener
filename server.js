@@ -53,7 +53,9 @@ app.get('/:docKey', function(req, res) {
         if (err) throw err;
         result.toArray(function(err, result) {
           if (err) throw err;
-          res.redirect(result[0]["original-url"]);
+          res.statusCode = 302;
+          res.setHeader("Location", 'https://' + result[0]["original-url"]);
+          res.end();
         });
       }
     )
@@ -61,7 +63,7 @@ app.get('/:docKey', function(req, res) {
   });
 });
     
-app.get('/new/:webAddress', function(req,res){
+app.get('/new/http://:webAddress', function(req,res){
   console.log(req.params.webAddress)
   var baseUrl = "https://tmattlee-urlshortener.herokuapp.com/";
   var newEndPoint = rand.generateBase30(6);
@@ -85,6 +87,29 @@ app.get('/new/:webAddress', function(req,res){
   });
 });
 
+app.get('/new/https://:webAddress', function(req,res){
+  console.log(req.params.webAddress)
+  var baseUrl = "https://tmattlee-urlshortener.herokuapp.com/";
+  var newEndPoint = rand.generateBase30(6);
+  var outputUrl = baseUrl + newEndPoint;
+  var doc = {
+    "key":  newEndPoint,
+    "original-url": req.params.webAddress,
+    "short-url": outputUrl
+  }
+  mongo.connect(url, function(err, db) {
+    if (err) throw err
+    var collection = db.collection('shorturls');
+    collection.insert(doc, function(err, data) {
+      if (err) throw err;
+      res.send({
+        "original-url": req.params.webAddress,
+        "short-url": outputUrl
+      });
+    });
+    db.close()
+  });
+});
 
 
 // Respond not found to all the wrong routes

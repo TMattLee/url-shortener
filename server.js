@@ -41,7 +41,7 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     });
     
-app.get('/test/:docKey', function(req, res) {
+/*app.get('/test/:docKey', function(req, res) {
   mongo.connect(url,function(err, db) {
     if (err) throw err;
     var collection = db.collection('shorturls');
@@ -56,7 +56,7 @@ app.get('/test/:docKey', function(req, res) {
   });
 });
     
-/*app.get('/new/:webAddress', function(req,res){
+app.get('/new/:webAddress', function(req,res){
   var baseUrl = "https://tmattlee-urlshortener.herokuapp.com/test/";
   var newEndPoint = rand.generateBase30(6);
   var outputUrl = baseUrl + newEndPoint;

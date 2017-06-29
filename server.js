@@ -48,18 +48,23 @@ app.get('/:docKey', function(req, res) {
     if (err) throw err;
     var collection = db.collection('shorturls');
    
-    collection.find({
+    collection.find(
+      {
         "key": req.params.docKey
-      }, function(err, result){
+      }, 
+      function(err, result){
         if (err) throw err;
         result.toArray(function(err, result) {
           if(err) throw err;
-          res.redirect('https://' + result[0]["original-url"]);
+          if(!(result[0] === null || result[0] === undefined)){
+            if(result[0].hasOwnProperty("original-url")){
+              res.redirect('https://' + result[0]["original-url"]);
+            }
+          }
           db.close();
         });
       }
     )
-    
   });
 });
     

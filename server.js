@@ -38,9 +38,9 @@ app.route('/_api/package.json')
   });
   
 app.route('/')
-    .get(function(req, res) {
-		  res.sendFile(process.cwd() + '/views/index.html');
-    });
+  .get(function(req, res) {
+	  res.sendFile(process.cwd() + '/views/index.html');
+  });
     
 app.get('/:docKey', function(req, res) {
   mongo.connect(url,function(err, db) {

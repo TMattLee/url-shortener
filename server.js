@@ -56,7 +56,7 @@ app.get('/test/:docKey', function(req, res) {
   });
 });
     
-app.get('/new/:webAddress', function(req,res){
+/*app.get('/new/:webAddress', function(req,res){
   var baseUrl = "https://tmattlee-urlshortener.herokuapp.com/test/";
   var newEndPoint = rand.generateBase30(6);
   var outputUrl = baseUrl + newEndPoint;
@@ -77,7 +77,7 @@ app.get('/new/:webAddress', function(req,res){
     });
     db.close()
   });
-});
+});*/
 
 
 
